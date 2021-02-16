@@ -7,7 +7,7 @@ class NewVisitorTest(unittest.TestCase):
     
     def setUp(self):
         self.browser = webdriver.Chrome()
-        self.browser.implicitly_wait(3)
+        self.browser.implicitly_wait(5)
         
     def tearDown(self):
         self.browser.quit()
@@ -18,7 +18,7 @@ class NewVisitorTest(unittest.TestCase):
         self.browser.get('http://localhost:8000')
 
         # 她注意到网页的头部和标题都包含“TO-DO”这个词
-        self.assertIn('TO-DO', self.browser.title)
+        self.assertIn('To-Do', self.browser.title)
         self.fail('Finish the test!')
 
         # 应用邀请她输入一个待办事项
