@@ -19,10 +19,7 @@
               
               {% csrf_token %}
 
-              <input id="id_new_item" name="item_text" 
-                     class="form-control input-lg"
-                     placeholder="Enter a to-do item" 
-              />
+              {{ form.text }}
 
               {% if error %}
                 <div class="form-control has-error">
