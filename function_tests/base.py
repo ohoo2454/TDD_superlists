@@ -27,7 +27,7 @@ class FunctionTest(StaticLiveServerTestCase):
         self.browser.implicitly_wait(3)
         
     def tearDown(self):
-        self.browser.refresh()
+        # self.browser.refresh()
         self.browser.quit()
 
     def check_for_row_in_list_table(self, row_text):

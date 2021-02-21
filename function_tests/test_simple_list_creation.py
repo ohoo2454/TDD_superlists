@@ -21,7 +21,6 @@ class NewVisitorTest(FunctionTest):
         self.assertEqual(input_box.get_attribute('placeholder'), 
                          'Enter a to-do item')
         
-
         # 她在一个文本框中输入了“Buy peacock feathers”
         # 伊迪斯的爱好是使用假蝇做饵钓鱼
         input_box.send_keys('Buy peacock feathers')
@@ -50,7 +49,7 @@ class NewVisitorTest(FunctionTest):
 
         ## 我们使用一个新浏览器会话
         ## 确保伊迪斯的信息不会从浏览器中泄露出来
-        self.browser.refresh()
+        # self.browser.refresh()
         self.browser.quit()
         self.browser = webdriver.Chrome()
 
