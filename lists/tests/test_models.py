@@ -33,8 +33,8 @@ class ItemModelsTest(TestCase):
         Item.objects.create(list=list_, text='bla')
         with self.assertRaises(ValidationError):
             item = Item.objects.create(list=list_, text='bla')
-            # item.full_clean()
-            item.save()
+            item.full_clean()
+            # item.save()
 
     def test_can_save_same_item_to_different_lists(self):
 

@@ -2,7 +2,7 @@ from django.test import TestCase
 from django.utils.html import escape
 
 from lists.models import Item, List
-from lists.forms import ItemForm, EMPTY_LIST_ERROR
+from lists.forms import ItemForm, EMPTY_LIST_ERROR, DUPLICATE_ITEM_ERROR
 
 
 # Create your tests here.
@@ -11,13 +11,11 @@ class HomePageTest(TestCase):
     def test_home_page_renders_home_template(self):
 
         response = self.client.get('/')
-        
         self.assertTemplateUsed(response, 'lists/home.html')
 
     def test_home_page_uses_item_form(self):
 
         response = self.client.get('/')
-
         self.assertIsInstance(response.context['form'], ItemForm)
 
 
@@ -49,33 +47,27 @@ class ListViewTest(TestCase):
 
         other_list = List.objects.create()
         correct_list = List.objects.create()
-
         response = self.client.get('/lists/%d/' % (correct_list.id, ))
-
         self.assertEqual(response.context['list'], correct_list)
 
     def test_POST_redirects_to_list_view(self):
 
         other_list = List.objects.create()
         correct_list = List.objects.create()
-
         response = self.client.post(
             '/lists/%d/' % (correct_list.id), 
             data={'text': 'A new item for an existing list'}
         )
-        
         self.assertRedirects(response, '/lists/%d/' % (correct_list.id,))
 
     def test_can_save_a_POST_request_to_an_existing_list(self):
 
         correct_list = List.objects.create()
         other_list = List.objects.create()
-
         self.client.post(
             '/lists/%d/' % (correct_list.id), 
             data={'text': 'A new item for an existing list'}
         )
-
         self.assertEqual(Item.objects.count(), 1)
         new_item = Item.objects.first()
         self.assertEqual(new_item.text, 'A new item for an existing list')
@@ -116,6 +108,21 @@ class ListViewTest(TestCase):
         response = self.client.get('/lists/%d/' % (list_.id,))
         self.assertIsInstance(response.context['form'], ItemForm)
         self.assertContains(response, 'name="text"')
+
+    def test_duplicate_item_validation_errors_end_up_on_lists_page(self):
+
+        list1 = List.objects.create()
+        Item.objects.create(list=list1, text='textey')
+        
+        response = self.client.post(
+            '/lists/%d/' % (list1.id,), 
+            data={'text': 'textey'}
+        )
+
+        expected_error = escape(DUPLICATE_ITEM_ERROR)
+        self.assertContains(response, expected_error)
+        self.assertTemplateUsed(response, 'lists/list.html')
+        self.assertEqual(Item.objects.count(), 1)
 
 
 class NewListTest(TestCase):
