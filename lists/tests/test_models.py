@@ -1,5 +1,6 @@
 from django.test import TestCase
 from django.core.exceptions import ValidationError
+from django.db.utils import IntegrityError
 
 from lists.models import Item, List
 
@@ -31,7 +32,7 @@ class ItemModelsTest(TestCase):
 
         list_ = List.objects.create()
         Item.objects.create(list=list_, text='bla')
-        with self.assertRaises(ValidationError):
+        with self.assertRaises(IntegrityError):
             item = Item.objects.create(list=list_, text='bla')
             item.full_clean()
             # item.save()
