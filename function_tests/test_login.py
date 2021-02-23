@@ -12,7 +12,7 @@ class LoginTest(FunctionTest):
         # 伊迪斯访问这个很棒的超级列表网站
         # 第一次注意到“Sign in”链接
         self.browser.get(self.server_url)
-        self.browser.find_element_by_id('login').click()
+        self.browser.find_element_by_id('id_login').click()
 
         # 出现一个Persona登陆框
         self.switch_to_new_window('Mozilla Persona')
@@ -28,7 +28,7 @@ class LoginTest(FunctionTest):
         self.switch_to_new_window('To-Do')
 
         # 她发现自己已经登录
-        self.wait_for_element_with_id('logout')
+        self.wait_for_element_with_id('id_logout')
         navbar = self.browser.find_element_by_css_selector('.navbar')
         self.assertIn('edith@mockmyid.com', navbar.text)
 

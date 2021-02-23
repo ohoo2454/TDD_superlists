@@ -4,7 +4,7 @@
     <meta charset="utf-8">
     <meta name="viewport" content="width=device-width">
     <title>Javascript tests</title>
-    <link rel="stylesheet" href="qunit.css">
+    <link rel="stylesheet" href="../../../superlists/static/tests/qunit.css">
   </head>
   <body>
     <div id="qunit"></div>
@@ -15,19 +15,19 @@
       </form>
     </div>
 
-    <script src="../jquery/jquery-3.5.1.min.js"></script>
-    <script src="qunit.js"></script>
+    <script src="../../../superlists/static/jquery/jquery-3.5.1.min.js"></script>
+    <script src="../../../superlists/static/tests/qunit.js"></script>
     <script src="../lists/js/list.js"></script>
     <script>
       /* global $, test, equal */
-      QUnit.module('smoke test', function () {
-        QUnit.test('errors should be hidden on keypress', function(assert) {
+      module('smoke test', function () {
+        test('errors should be hidden on keypress', function() {
           $('input').trigger('keypress');
-          assert.equal($('.has-error').is(':visible'), false, 'hide');
+          equal($('.has-error').is(':visible'), false, 'hide');
         });
 
-        QUnit.test('errors not be hidden unless there is a keypress', function(assert) {
-          assert.equal($('.has-error').is(':visible'), true, 'not hide');
+        test('errors not be hidden unless there is a keypress', function() {
+          equal($('.has-error').is(':visible'), true, 'not hide');
         });
       });
     </script>
